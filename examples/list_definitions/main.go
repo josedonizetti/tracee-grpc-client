@@ -14,9 +14,7 @@ func main() {
 
 	client := client.NewTraceeServciceClient(conn)
 
-	list, err := client.ListEventsDefinition(context.Background(), &pb.ListEventsDefinitionRequest{
-		Names: []string{"ptrace", "anti_debugging"},
-	})
+	list, err := client.ListEventsDefinition(context.Background(), &pb.ListEventsDefinitionRequest{})
 	if err != nil {
 		log.Fatal(err)
 	}

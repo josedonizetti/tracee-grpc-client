@@ -16,10 +16,10 @@ func main() {
 
 	client := client.NewTraceeDiagnosticClient(conn)
 
-	stacktrace, err := client.GetStackTracee(context.Background(), &pb.GetStackTraceeRequest{})
+	stacktrace, err := client.GetStacktrace(context.Background(), &pb.GetStacktraceRequest{})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(string(stacktrace.StackTrace))
+	fmt.Println(string(stacktrace.Stacktrace))
 }

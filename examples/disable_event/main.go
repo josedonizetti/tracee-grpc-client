@@ -14,13 +14,12 @@ func main() {
 
 	client := client.NewTraceeServciceClient(conn)
 
-	in := &pb.UpdatePolicyRequest{
-		Names:  []string{"test1"},
-		Action: pb.UpdaPolicyAction_DisableEvent,
-		Event:  &pb.Event{Name: "ptrace"},
+	in := &pb.DisablePolicyRuleRequest{
+		PolicyName: "test1",
+		RuleId:     "ptrace",
 	}
 
-	_, err := client.UpdatePolicy(context.Background(), in)
+	_, err := client.DisablePolicyRule(context.Background(), in)
 	if err != nil {
 		log.Fatal(err)
 	}
