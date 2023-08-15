@@ -15,8 +15,8 @@ func main() {
 	client := client.NewTraceeServciceClient(conn)
 
 	in := &pb.EnablePolicyRuleRequest{
-		PolicyName: "test1",
-		RuleId:     "ptrace",
+		PolicyName: "forensics",
+		RuleId:     "openat",
 	}
 
 	_, err := client.EnablePolicyRule(context.Background(), in)

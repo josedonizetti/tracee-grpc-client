@@ -33,7 +33,7 @@ func main() {
 	client := pb.NewTraceeServiceClient(conn)
 
 	stream, err := client.StreamEvents(context.Background(), &pb.StreamEventsRequest{
-		Policies: []string{"detections"},
+		Policies: []string{"detection"},
 	})
 	if err != nil {
 		log.Fatal(err)
