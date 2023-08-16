@@ -25,6 +25,6 @@ func NewTraceeServciceClient(conn *grpc.ClientConn) pb.TraceeServiceClient {
 	return pb.NewTraceeServiceClient(conn)
 }
 
-func NewTraceeDiagnosticClient(conn *grpc.ClientConn) pb.DiagnosticClient {
-	return pb.NewDiagnosticClient(conn)
+func NewTraceeDiagnosticClient(conn *grpc.ClientConn) pb.DiagnosticServiceClient {
+	return pb.NewDiagnosticServiceClient(conn)
 }
