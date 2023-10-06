@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	pb "github.com/aquasecurity/tracee/types/api/v1beta1"
+	pb "github.com/aquasecurity/tracee/api/v1beta1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/keepalive"
@@ -32,7 +32,9 @@ func main() {
 
 	client := pb.NewTraceeServiceClient(conn)
 
-	stream, err := client.StreamEvents(context.Background(), &pb.StreamEventsRequest{})
+	stream, err := client.StreamEvents(context.Background(), &pb.StreamEventsRequest{
+		Policies: []string{"udp", "icmp"},
+	})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -42,8 +44,21 @@ func main() {
 			break
 		}
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("pq isso é nil -> %v - %v \n", event, err)
+			continue
 		}
-		fmt.Println("receive event", event)
+
+		fmt.Printf("Event: %s\n", event.Event.Name)
+
+		eventData := event.Event.EventData
+		if args, ok := eventData["args"]; ok {
+			for i, arg := range args.GetArgs().GetValue() {
+				fmt.Printf("%s - %d - %v\n", event.Event.Name, i, arg)
+			}
+		} else {
+			for k, v := range eventData {
+				fmt.Printf("%s - %s - %v\n", event.Event.Name, k, v)
+			}
+		}
 	}
 }

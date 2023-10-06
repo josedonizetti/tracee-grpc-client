@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	pb "github.com/aquasecurity/tracee/types/api/v1beta1"
+	pb "github.com/aquasecurity/tracee/api/v1beta1"
 	"github.com/josedonizetti/tracee-grpc-client/pkg/client"
 )
 

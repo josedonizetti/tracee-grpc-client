@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	pb "github.com/aquasecurity/tracee/types/api/v1beta1"
+	pb "github.com/aquasecurity/tracee/api/v1beta1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/keepalive"

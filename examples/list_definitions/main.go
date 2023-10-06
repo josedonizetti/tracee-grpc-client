@@ -2,24 +2,39 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	pb "github.com/aquasecurity/tracee/types/api/v1beta1"
-	"github.com/josedonizetti/tracee-grpc-client/pkg/client"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func main() {
-	conn := client.NewGRPCConn()
-	defer conn.Close()
+	var opts []grpc.DialOption
+	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
-	client := client.NewTraceeServciceClient(conn)
+	conn, err := grpc.Dial(":4466", opts...)
+	if err != nil {
+		log.Fatalf("fail to dial: %v", err)
+	}
 
-	list, err := client.ListEventsDefinition(context.Background(), &pb.ListEventsDefinitionRequest{})
+	client := pb.NewTraceeServiceClient(conn)
+
+	definitions, err := client.GetEventDefinition(
+		context.Background(),
+		&pb.GetEventDefinitionRequest{Name: ""},
+	)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, event := range list.Definitions {
-		log.Printf("definition: %+v\n", event)
+	for _, definition := range definitions.Definitions {
+		v := fmt.Sprintf("%d.%d.%d", definition.Version.Major, definition.Version.Minor, definition.Version.Patch)
+		fmt.Println("Id:", definition.Id)
+		fmt.Println("Name:", definition.Name)
+		fmt.Println("Description:", definition.Description)
+		fmt.Println("Version:", v)
+		fmt.Printf("Tags: %v\n", definition.Tags)
 	}
 }
